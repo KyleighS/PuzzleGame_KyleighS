@@ -8,13 +8,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform piecePrefab;
 
     private int emptyLocation;
-    private int size;
+    public int size = 3;
 
     // Start is called before the first frame update
     void Start()
     {
-        size = 3;
-        CreateGamePieces(0.01f);
+        CreateGamePieces(0.02f);
     }
 
     // Update is called once per frame
