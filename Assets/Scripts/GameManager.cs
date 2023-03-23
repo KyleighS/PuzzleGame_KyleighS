@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreateGamePieces(0.02f);
+        CreateGamePieces(0f);
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     //creates the game setup with the size x size pieces
     private void CreateGamePieces(float gapThickness)
     {
-        float width = 1/(float)size;
+        float width = 1f/size;
 
         for(int row = 0; row < size; row++)
         {
@@ -40,6 +40,20 @@ public class GameManager : MonoBehaviour
                 {
                     emptyLocation = (size * size) - 1;
                     piece.gameObject.SetActive(false);
+                }
+                else
+                {
+                    float gap = gapThickness / 2f;
+                    Mesh mesh = piece.GetComponent<MeshFilter>().mesh;
+                    Vector2[] uv = new Vector2[4];
+
+                    //cord order: (0,1), (1,1), (0,0), (1,0)
+                    uv[0] = new Vector2((width * col), 1 - ((width * (row + 1))));
+                    uv[1] = new Vector2((width * (col + 1)), 1 - ((width * (row + 1))));
+                    uv[2] = new Vector2((width * col), (width * row));
+                    uv[3] = new Vector2((width * (col + 1)), 1 - ((width * row)));
+
+                    mesh.uv = uv;
                 }
             }
         }
