@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,11 +13,14 @@ public class GameManager : MonoBehaviour
     public int size = 3;
     private bool shuffling = false;
 
+    public GameObject victoryScreen;
+
     // Start is called before the first frame update
     void Start()
     {
         pieces = new List<Transform>();
         CreateGamePieces(0.04f);
+        Shuffle();
     }
 
     // Update is called once per frame
@@ -25,8 +29,7 @@ public class GameManager : MonoBehaviour
         //checks for completion
         if (!shuffling && CheckCompletion())
         {
-            shuffling = true;
-            StartCoroutine(WaitShuffle(0.5F));
+            Victory();
         }
 
 
@@ -105,18 +108,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool CheckCompletion()
-    {
-        for (int i = 0; i < pieces.Count; i++)
-        {
-            if (pieces[i].name != $"{i}")
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private IEnumerator WaitShuffle(float duration)
     {
         yield return new WaitForSeconds(duration);
@@ -156,5 +147,47 @@ public class GameManager : MonoBehaviour
                 count++;
             }
         }
+    }    
+    
+    //COMPLETEING GAME
+    private bool CheckCompletion()
+    {
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            if (pieces[i].name != $"{i}")
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void Victory()
+    {
+        victoryScreen.SetActive(true);
+
+        if (victoryScreen.activeSelf)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void NextLevel(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+    public void Restart(string sceneName)
+    {
+        //PauseGame();
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void Quit()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
