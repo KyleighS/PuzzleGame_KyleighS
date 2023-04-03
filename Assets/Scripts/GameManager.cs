@@ -17,10 +17,12 @@ public class GameManager : MonoBehaviour
     private bool shuffling = false;
 
     public GameObject victoryScreen;
+    public GameObject gameOverScreen;
 
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1f;
         pieces = new List<Transform>();
         CreateGamePieces(0.04f);
         Shuffle();
@@ -34,6 +36,11 @@ public class GameManager : MonoBehaviour
         if (!shuffling && CheckCompletion())
         {
             Victory();
+        }
+
+        if(moves <= 0)
+        {
+            GameOver();
         }
 
 
@@ -172,6 +179,20 @@ public class GameManager : MonoBehaviour
         victoryScreen.SetActive(true);
 
         if (victoryScreen.activeSelf)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+    private void GameOver()
+    {
+        gameOverScreen.SetActive(true);
+
+        if (gameOverScreen.activeSelf)
         {
             Time.timeScale = 0f;
         }
