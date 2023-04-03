@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,8 @@ public class GameManager : MonoBehaviour
     private List<Transform> pieces;
     private int emptyLocation;
     public int size = 3;
+    public TextMeshProUGUI moveText;
+    public int moves = 20;
     private bool shuffling = false;
 
     public GameObject victoryScreen;
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        moveText.text = moves.ToString("00");
         //checks for completion
         if (!shuffling && CheckCompletion())
         {
@@ -50,6 +54,7 @@ public class GameManager : MonoBehaviour
                         if (SwapIfVaild(i, +1, size - 1)) { break; }
                     }
                 }
+                moves--;
             }
         }
     }
@@ -129,7 +134,7 @@ public class GameManager : MonoBehaviour
             if (rnd == last) { continue; }
             last = emptyLocation;
 
-            //looks for valid omves
+            //looks for valid moves
             if (SwapIfVaild(rnd, -size, size))
             {
                 count++;
