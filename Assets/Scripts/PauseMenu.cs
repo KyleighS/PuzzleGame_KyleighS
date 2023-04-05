@@ -6,11 +6,14 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
+    public AudioSource audio;
+    private float defaultPitch;
 
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 1f;
+        defaultPitch = audio.pitch;
     }
 
     // Update is called once per frame
@@ -28,11 +31,13 @@ public class PauseMenu : MonoBehaviour
 
         if (pauseMenu.activeSelf)
         {
+            audio.pitch = 0;
             Time.timeScale = 0f;
         }
         else
         {
             Time.timeScale = 1f;
+            audio.pitch = defaultPitch;
         }
     }
 
